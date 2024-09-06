@@ -3,12 +3,15 @@ import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'; // Swiper for swipeable functionality
 import 'swiper/css';
 import { firestore, auth } from '../firebaseConfig'; // Adjust path as needed
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 
-const colors = ['#FFD6BA','#FAA0A0','#f4e8fc', '#9dc9ec','#FFF7AE','#d7f9eb']; // Define your color palette
+const colors = ['#FFD6BA', '#FAA0A0', '#f4e8fc', '#9dc9ec', '#FFF7AE', '#d7f9eb']; // Define your color palette
 
 export default function EntryViewer() {
     const [entries, setEntries] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editEntry, setEditEntry] = useState(null);
+    const [editText, setEditText] = useState('');
 
     useEffect(() => {
         // Get the current user
@@ -34,13 +37,62 @@ export default function EntryViewer() {
         }
     }, []);
 
-    const handleEdit = (index) => {
-        // Implement edit functionality
-        console.log('Edit entry at index:', index);
+    const handleEdit = (entry) => {
+        setEditEntry(entry);
+        setEditText(entry.text);
+        setIsEditing(true);
+    };
+
+    const handleSave = async () => {
+        if (editEntry && editText) {
+            try {
+                // Update the entry in Firestore
+                const entryRef = doc(firestore, 'entries', editEntry.id);
+                await updateDoc(entryRef, { text: editText });
+                setIsEditing(false);
+                setEditEntry(null);
+                setEditText('');
+            } catch (error) {
+                console.error('Error updating document:', error);
+            }
+        }
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditEntry(null);
+        setEditText('');
     };
 
     return (
-        <div className="font-primary w-full h-[60vh] flex items-center justify-center px-[40px]">
+        <div className="font-primary w-full h-[60vh] flex flex-col items-center justify-center px-[40px]">
+            {isEditing && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2">
+                        <h2 className="text-[25px] font-bold mb-4">Edit Your Thoughts...</h2>
+                        <textarea
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            rows="6"
+                            className="border border-gray-300 p-2 text-[20px] w-full rounded"
+                        />
+                        <div className="mt-4 flex justify-end space-x-4">
+                            <button
+                                className="bg-[#8E62DB] text-white text-[20px] px-3 py-0.5 rounded hover:scale-110"
+                                onClick={handleSave}
+                            >
+                                Save
+                            </button>
+                            <button
+                                className="bg-gray-300 text-black text-[20px] px-3 py-0.5 rounded hover:scale-110"
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <Swiper
                 spaceBetween={10} // Space between slides
                 slidesPerView={1} // Default to 1 slide per view
@@ -60,7 +112,7 @@ export default function EntryViewer() {
                 {entries.map((entry, index) => (
                     <SwiperSlide key={entry.id}>
                         <div
-                            className="relative w-[400px] h-[300px] flex flex-col justify-between p-4 rounded-lg shadow-lg"
+                            className="relative xl:w-[400px] xl:h-[300px] h-[300px] flex flex-col justify-between p-4 rounded-lg shadow-lg"
                             style={{ backgroundColor: colors[index % colors.length], opacity: 0.9 }}
                         >
                             <div>
@@ -68,9 +120,10 @@ export default function EntryViewer() {
                                 <p className='text-[25px] mt-5'>{entry.text}</p>
                             </div>
                             <div className="absolute bottom-2 right-2 flex space-x-2">
-                                <button 
+                                <button
                                     className=" text-black border-black border-1 text-[20px] px-3 py-0.5 rounded hover:scale-110 transition-transform"
-                                    onClick={() => handleEdit(index)}>
+                                    onClick={() => handleEdit(entry)}
+                                >
                                     Edit Thoughts...
                                 </button>
                             </div>

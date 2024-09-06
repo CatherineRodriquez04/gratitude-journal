@@ -1,20 +1,25 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerUser } from './auth';
+import { registerUser } from './auth'; 
 
 export default function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(''); // State to track error messages
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await registerUser(email, password);
+        setError(''); // Clear previous errors before a new attempt
+
+        const result = await registerUser(email, password);
+
+        if (result.success) {
             // Navigate to the main screen/dashboard after successful registration
             router.push('/mainScreen');
-        } catch (error) {
-            console.error('Registration failed:', error.message);
+        } else {
+            // Set the error message if registration fails
+            setError(result.message);
         }
     };
 
@@ -34,9 +39,12 @@ export default function RegisterForm() {
                 placeholder="Create Password"
                 className="border border-gray-300 p-2 px-4 rounded"
             />
-            <button type="submit" className="bg-[#8E62DB] text-white px-2 py-0.5 rounded hover:scale-110">
+            <button type="submit" className="bg-[#8E62DB] text-white text-[25px] py-0.5 px-2 rounded hover:scale-110">
                 Start Journey
             </button>
+
+            {/* Display error message if it exists */}
+            {error && <p className="text-[#8E62DB] mt-2">{error}</p>}
         </form>
     );
 }
