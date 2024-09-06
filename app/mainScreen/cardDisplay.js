@@ -1,4 +1,3 @@
-"use client";
 import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'; // Swiper for swipeable functionality
 import 'swiper/css';
@@ -65,7 +64,7 @@ export default function EntryViewer() {
     };
 
     return (
-        <div className="font-primary w-full h-[60vh] flex flex-col items-center justify-center px-[40px]">
+        <div className="font-primary w-full h-[60vh] flex flex-col items-center justify-center px-[40px] overflow-x-hidden">
             {isEditing && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2">
@@ -112,16 +111,20 @@ export default function EntryViewer() {
                 {entries.map((entry, index) => (
                     <SwiperSlide key={entry.id}>
                         <div
-                            className="relative xl:w-[400px] xl:h-[300px] h-[300px] flex flex-col justify-between p-4 rounded-lg shadow-lg"
+                            className="relative xl:w-[400px] xl:h-[300px] h-[300px] flex flex-col p-4 rounded-lg shadow-lg overflow-hidden"
                             style={{ backgroundColor: colors[index % colors.length], opacity: 0.9 }}
                         >
-                            <div>
+                            <div className="flex flex-col h-full overflow-hidden">
                                 <h3 className="text-xl font-bold">{entry.date}</h3>
-                                <p className='text-[25px] mt-5'>{entry.text}</p>
+                                <div className="flex-grow overflow-hidden">
+                                    <p className="text-[25px] mt-5 max-h-[175px] leading-[40px] overflow-y-auto overflow-x-hidden">
+                                        {entry.text}
+                                    </p>
+                                </div>
                             </div>
                             <div className="absolute bottom-2 right-2 flex space-x-2">
                                 <button
-                                    className=" text-black border-black border-1 text-[20px] px-3 py-0.5 rounded hover:scale-110 transition-transform"
+                                    className="text-black border-black border-1 text-[20px] px-3 py-0.5 rounded hover:scale-110 transition-transform"
                                     onClick={() => handleEdit(entry)}
                                 >
                                     Edit Thoughts...
