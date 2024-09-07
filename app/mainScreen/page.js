@@ -95,7 +95,7 @@ export default function Home() {
           <p className="font-primary text-pink-400 xl:text-[30px] text-[25px] mt-2 leading-snug">- {currentQuote.author}</p>
         </div>
       </div>
-      <div className='absolute w-full flex justify-center xl:mt-500px] mt-[500px]'>
+      <div className='absolute w-full flex justify-center xl:mt-500px] mt-[480px]'>
         <EntryViewer></EntryViewer>
       </div>
       <div className='absolute xl:top-[275px] top-[285px] w-full flex justify-center'>

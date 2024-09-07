@@ -41,8 +41,8 @@ export default function Home() {
           <p className="font-primary text-pink-400 xl:text-[30px] text-[25px] -mt-2 leading-snug">Welcome! Every day brings something to be thankful for, no matter how small. Take a moment to reflect on the good in your life and let positivity guide your journey!</p>
         </div>
       </div>
-      <div className='relative w-full flex text-center justify-center xl:mt-[100px] mt-[100px] mx-auto xl:max-w-[40%] max-w-[95%] leading-relaxed'>
-        <p className="font-primary text-pink-400 xl:text-[35px] text-[30px] leading-snug">Please log in to continue your journey or register to start your journey of positivity✨</p>
+      <div className='relative w-full flex text-center justify-center xl:mt-[100px] mt-[100px] mx-auto xl:max-w-[50%] max-w-[95%] leading-relaxed'>
+        <p className="font-primary text-white xl:text-[35px] text-[30px] leading-snug">Log in to continue your journey of positivity, or register to start capturing your moments of gratitude and joy✨</p>
       </div>
       <div className='text-center p-5 xl:mb-2 mb-2 space-x-10'>
         <button
@@ -59,12 +59,12 @@ export default function Home() {
         </button>
       </div>
       {isLoginFormVisible && (
-        <div className="w-full flex justify-center mt-4">
+        <div className="w-full flex justify-center">
           <LoginForm />
         </div>
       )}
       {isRegisterFormVisible && (
-        <div className="w-full flex justify-center mt-4">
+        <div className="w-full flex justify-center">
           <RegisterForm />
         </div>
       )}

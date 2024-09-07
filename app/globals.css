@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-      @apply font-primary bg-white text-black leading-loose;
+      @apply font-primary bg-[#b6b7c5] text-black leading-loose;
   }
   .h1 {
       @apply text-[38px] xl:text-[58px] leading-[1.1] font-semibold;
@@ -38,3 +38,5 @@
     text-wrap: balance;
   }
 }
+
+

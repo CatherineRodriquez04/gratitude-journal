@@ -16,6 +16,7 @@
     "firebase": "^10.13.1",
     "framer-motion": "^11.5.2",
     "gratitude-journal": "file:",
+    "lodash": "^4.17.21",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",

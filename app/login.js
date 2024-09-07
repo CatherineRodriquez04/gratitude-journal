@@ -33,6 +33,9 @@ export default function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit} className="flex font-primary text-[25px] flex-col items-center space-y-4">
+            <div>
+                <p className='font-primary text-gray-500 text-[28px] leading-snug'>Entering your daily journal - almost there!</p>
+            </div>
             <input
                 type="email"
                 value={email}
@@ -52,7 +55,7 @@ export default function LoginForm() {
             </button>
 
             {/* Display error message if it exists */}
-            {error && <p className="text-[#9dc9ec] mt-2">{error}</p>}
+            {error && <p className="text-[#8E62DB] mt-2">{error}</p>}
         </form>
     );
 }

@@ -25,6 +25,9 @@ export default function RegisterForm() {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col font-primary text-[25px] items-center space-y-4">
+            <div>
+                <p className='font-primary text-gray-500 text-[28px] leading-snug'>Set up your account details here!</p>
+            </div>
             <input
                 type="email"
                 value={email}
